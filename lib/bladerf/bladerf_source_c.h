@@ -69,6 +69,7 @@ public:
   std::string name();
 
   static std::vector<std::string> get_devices();
+  void *get_rawdev(void);
 
   size_t get_max_channels(void);
   size_t get_num_channels(void);

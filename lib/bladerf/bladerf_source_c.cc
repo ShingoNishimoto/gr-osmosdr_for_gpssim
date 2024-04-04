@@ -203,6 +203,14 @@ std::vector<std::string> bladerf_source_c::get_devices()
   return bladerf_common::devices();
 }
 
+void *bladerf_source_c::get_rawdev(void)
+{
+  bladerf_sptr bladeptr = bladerf_common::get_rawdev();
+  bladerf *bladerf_dev = bladeptr.get();
+  void *void_ptr = (void*)bladerf_dev;
+  return void_ptr;
+}
+
 size_t bladerf_source_c::get_max_channels()
 {
   return bladerf_common::get_max_channels(BLADERF_RX);

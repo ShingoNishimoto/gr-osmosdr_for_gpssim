@@ -34,6 +34,9 @@ typedef std::map<std::string, std::string> string_string_dict_t;
 
 namespace osmosdr {
 
+// Device pointer
+typedef std::shared_ptr<void> void_sptr;
+
   /*!
    * Mapping of key/value pairs for locating devices on the system.
    * When left empty, the device discovery routines will search
@@ -108,6 +111,14 @@ namespace osmosdr {
      * \return a vector of logical devices for all radios on the system
      */
     static devices_t find(const device_t &hint = osmosdr::device_t());
+    static void_sptr get_rawdev(void)
+    {
+      void_sptr rawdev;
+    #ifdef ENABLE_BLADERF
+      rawdev = bladerf_source_c::get_rawdev();
+    #endif
+      return rawdev;
+    }
   };
 
 } //namespace osmosdr

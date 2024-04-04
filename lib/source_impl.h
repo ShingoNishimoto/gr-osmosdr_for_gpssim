@@ -37,6 +37,7 @@ public:
   source_impl( const std::string & args );
 
   size_t get_num_channels( void );
+  virtual void* get_devptr();
 
   bool seek( long seek_point, int whence, size_t chan );
 

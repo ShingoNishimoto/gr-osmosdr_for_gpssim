@@ -105,6 +105,12 @@ osmosdr::source::make( const std::string &args )
   return gnuradio::get_initial_sptr( new source_impl(args) );
 }
 
+void * source_impl::get_devptr()
+{
+    void *source_dev = (osmosdr::source*)_devs[0]->get_rawdev();
+    return source_dev;
+}
+
 /*
  * The private constructor
  */

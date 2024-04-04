@@ -33,6 +33,12 @@ class source_iface
 {
 public:
   /*!
+   * Get the device pointer as a void pointer.
+   * \return device pointer
+   */
+  virtual void *get_rawdev(void) {return 0;};
+
+  /*!
    * Get the number of channels the underlying radio hardware offers.
    * \return the number of available channels
    */

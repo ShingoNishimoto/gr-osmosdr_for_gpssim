@@ -39,6 +39,7 @@ class OSMOSDR_API source : virtual public gr::hier_block2
 {
 public:
   typedef boost::shared_ptr< source > sptr;
+  virtual void* get_devptr() = 0;
 
   /*!
    * \brief Return a shared_ptr to a new instance of source.

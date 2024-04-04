@@ -231,6 +231,15 @@ else(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 ########################################################################
+# Find boost
+########################################################################
+find_package(Boost "1.65" REQUIRED chrono thread system)
+
+if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Boost required to compile osmosdr")
+endif()
+
+########################################################################
 # Setup the include and linker paths
 ########################################################################
 include_directories(

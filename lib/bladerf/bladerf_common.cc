@@ -146,6 +146,11 @@ bladerf_common::bladerf_common() :
 {
 }
 
+bladerf_sptr bladerf_common::get_rawdev(void)
+{
+  return _dev;
+}
+
 /******************************************************************************
  * Protected methods
  ******************************************************************************/
