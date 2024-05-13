@@ -95,6 +95,11 @@ bladerf_sink_c::bladerf_sink_c(const std::string &args) :
     set_biastee_mode(dict["biastee"]);
   }
 
+  /* External clock reference */
+  if (dict.count("clock_ref")) {
+    set_clock_ref(dict["clock_ref"]);
+  }
+
   /* Initialize channel <-> antenna map */
   BOOST_FOREACH(std::string ant, get_antennas()) {
     _chanmap[str2channel(ant)] = -1;
@@ -606,5 +611,25 @@ void bladerf_sink_c::set_biastee_mode(const std::string &mode)
     BLADERF_WARNING("Bias-tee not supported by device");
   } else if (status != 0) {
     BLADERF_THROW_STATUS(status, "Failed to set bias-tee");
+  }
+}
+
+void bladerf_sink_c::set_clock_ref(const std::string &ref)
+{
+  int status;
+  bool enable;
+
+  if (ref == "on" || ref == "1") {
+    enable = true;
+  } else {
+    enable = false;
+  }
+
+  status = bladerf_set_pll_enable(_dev.get(), enable);
+  if (BLADERF_ERR_UNSUPPORTED == status) {
+    // unsupported, but not worth crashing out
+    BLADERF_WARNING("External clock_ref(10MHz) not supported by device");
+  } else if (status != 0) {
+    BLADERF_THROW_STATUS(status, "Failed to set clock_ref(10MHz)");
   }
 }

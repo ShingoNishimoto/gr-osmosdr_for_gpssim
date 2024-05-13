@@ -106,6 +106,16 @@ bladerf_source_c::bladerf_source_c(const std::string &args) :
     set_biastee_mode(dict["biastee"]);
   }
 
+  /* External Clock Reference */
+  if (dict.count("clock_ref")) {
+    set_clock_ref(dict["clock_ref"]);
+  }
+
+  /* External Clock Input */
+  if (dict.count("clock_sel")) {
+    set_clock_sel(dict["clock_sel"]);
+  }
+
   /* Loopback */
   set_loopback_mode(dict.count("loopback") ? dict["loopback"] : "none");
 
@@ -576,6 +586,48 @@ void bladerf_source_c::set_biastee_mode(const std::string &mode)
     BLADERF_WARNING("Bias-tee not supported by device");
   } else if (status != 0) {
     BLADERF_THROW_STATUS(status, "Failed to set bias-tee");
+  }
+}
+
+void bladerf_source_c::set_clock_ref(const std::string &ref)
+{
+  int status;
+  bool enable;
+
+  if (ref == "on" || ref == "1") {
+    enable = true;
+  } else {
+    enable = false;
+  }
+
+  status = bladerf_set_pll_enable(_dev.get(), enable);
+  BLADERF_WARNING("Clock Ref is enabled to use external 10MHz clock.");
+  if (BLADERF_ERR_UNSUPPORTED == status) {
+    // unsupported, but not worth crashing out
+    BLADERF_WARNING("External clock_ref(10MHz) not supported by device");
+  } else if (status != 0) {
+    BLADERF_THROW_STATUS(status, "Failed to set clock_ref(10MHz)");
+  }
+}
+
+void bladerf_source_c::set_clock_sel(const std::string &ref)
+{
+  int status;
+  bladerf_clock_select sel;
+
+  if (ref == "external") {
+    sel = CLOCK_SELECT_EXTERNAL;
+  } else {
+    sel = CLOCK_SELECT_ONBOARD;
+  }
+
+  status = bladerf_set_clock_select(_dev.get(), sel);
+  BLADERF_WARNING("Clock_in is to use external 38.4MHz clock.");
+  if (BLADERF_ERR_UNSUPPORTED == status) {
+    // unsupported, but not worth crashing out
+    BLADERF_WARNING("External clock_ref(38.4MHz) not supported by device");
+  } else if (status != 0) {
+    BLADERF_THROW_STATUS(status, "Failed to set clock_ref(10MHz)");
   }
 }
 

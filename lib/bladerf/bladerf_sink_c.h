@@ -116,6 +116,7 @@ public:
   std::vector<std::string> get_clock_sources(size_t mboard);
   void set_clock_source(const std::string &source, size_t mboard = 0);
   std::string get_clock_source(size_t mboard);
+  void set_clock_ref(const std::string &ref);
 
   void set_biastee_mode(const std::string &mode);
 
