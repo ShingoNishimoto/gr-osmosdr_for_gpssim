@@ -601,12 +601,15 @@ void bladerf_source_c::set_clock_ref(const std::string &ref)
   }
 
   status = bladerf_set_pll_enable(_dev.get(), enable);
-  BLADERF_WARNING("Clock Ref is enabled to use external 10MHz clock.");
   if (BLADERF_ERR_UNSUPPORTED == status) {
     // unsupported, but not worth crashing out
     BLADERF_WARNING("External clock_ref(10MHz) not supported by device");
   } else if (status != 0) {
     BLADERF_THROW_STATUS(status, "Failed to set clock_ref(10MHz)");
+  } else if (enable) {
+    BLADERF_WARNING("Clock Ref is enabled to use external 10MHz clock.");
+  } else {
+    BLADERF_WARNING("Clock Ref is disabled.");
   }
 }
 
