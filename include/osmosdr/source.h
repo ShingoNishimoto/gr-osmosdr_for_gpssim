@@ -62,8 +62,9 @@ public:
   /*!
    * \brief seek file to \p seek_point relative to \p whence
    *
-   * \param seek_point	sample offset in file
-   * \param whence	one of SEEK_SET, SEEK_CUR, SEEK_END (man fseek)
+   * \param seek_point sample offset in file
+   * \param whence one of SEEK_SET, SEEK_CUR, SEEK_END (man fseek)
+   * \param chan the channel index 0 to N-1
    * \return true on success
    */
   virtual bool seek( long seek_point, int whence, size_t chan = 0 ) = 0;

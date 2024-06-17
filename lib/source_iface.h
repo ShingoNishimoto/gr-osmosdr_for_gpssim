@@ -49,6 +49,7 @@ public:
    *
    * \param seek_point	sample offset in file
    * \param whence	one of SEEK_SET, SEEK_CUR, SEEK_END (man fseek)
+   * \param chan the channel index 0 to N-1
    * \return true on success
    */
   virtual bool seek( long seek_point, int whence, size_t chan = 0 ) { return false; }
@@ -216,6 +217,7 @@ public:
 
   /*!
    * Select the active antenna of the underlying radio hardware.
+   * \param antenna name of the antenna to be selected
    * \param chan the channel index 0 to N-1
    * \return the actual antenna's name
    */
